@@ -8,37 +8,39 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #ff758c, #ff7eb3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    background: url('roses-bg.jpg') center/cover no-repeat;
     height: 100vh;
     overflow: hidden;
     color: white;
     text-align: center;
 }
 
+.overlay {
+    background: rgba(0,0,0,0.45);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
 .card {
-    background: rgba(255, 255, 255, 0.15);
+    position: relative;
+    z-index: 2;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: auto;
+    width: 90%;
+    max-width: 750px;
+    background: rgba(255, 0, 60, 0.25);
     padding: 40px;
     border-radius: 25px;
-    width: 92%;
-    max-width: 750px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(10px);
-    z-index: 2;
-    position: relative;
+    backdrop-filter: blur(8px);
 }
 
-h1 { font-size: 34px; }
+h1 { font-size: 36px; }
 p { font-size: 22px; line-height: 1.8; }
-
-.name {
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
 
 button {
     margin-top: 25px;
@@ -47,101 +49,93 @@ button {
     border-radius: 30px;
     border: none;
     background: white;
-    color: #ff4da6;
+    color: #ff004f;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
 }
-
-button:hover { transform: scale(1.05); }
 
 /* Floating hearts */
 .hearts span {
     position: absolute;
     bottom: -20px;
-    font-size: 22px;
-    animation: floatUp 10s linear infinite;
-    opacity: 0.8;
+    font-size: 24px;
+    animation: floatUp 8s linear infinite;
 }
 
 @keyframes floatUp {
     0% { transform: translateY(0) scale(0.8); opacity: 1; }
-    100% { transform: translateY(-110vh) scale(1.4); opacity: 0; }
+    100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
 }
 
-/* Teddy hug animation */
+/* Teddy hug */
 .hug-container {
     position: fixed;
-    bottom: 18%;
+    bottom: 10%;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 70px;
+    width: 300px;
+    height: 200px;
     display: none;
     z-index: 5;
 }
 
-.teddy-left, .teddy-right {
-    position: relative;
+.teddy {
+    position: absolute;
+    width: 140px;
     transition: all 2s ease;
 }
 
-.hug .teddy-left { transform: translateX(35px); }
-.hug .teddy-right { transform: translateX(-35px); }
+.left { left: 0; }
+.right { right: 0; }
+
+.hug .left { left: 80px; }
+.hug .right { right: 80px; }
 
 .hug-message {
     position: fixed;
-    bottom: 10%;
+    bottom: 5%;
     width: 100%;
-    text-align: center;
-    font-size: 26px;
+    font-size: 28px;
     font-weight: bold;
     display: none;
     animation: fadeIn 2s ease forwards;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-    <div class="name">For My Mohit ❤️</div>
-    <div style="font-size:55px;">🧸</div>
+<div class="overlay"></div>
 
-    <h1>Happy Teddy Day to the love of my life 🥰</h1>
+<div class="card">
+    <h1>Happy Teddy Day Mohit ❤️</h1>
 
     <p>
         Just like every story needs its hero, my heart chose you — and I chose to be your teddy 💞  
-        Soft where you need comfort, warm when you need hugs, and always by your side through every little moment of life.  
-        You don’t just have a teddy… you have me, your forever cuddle partner, your biggest fan, and your happiest smile 💛
+        Soft where you need comfort, warm when you need hugs, and always by your side.
     </p>
 
     <p>
-        Thank you for loving me, laughing with me, and letting me be your safe place.  
-        Today, tomorrow, and always — I’m yours 🧸✨
+        You don’t just have a teddy… you have me, your forever cuddle partner 💖
     </p>
-
-    <p><b>Love you endlessly,<br>Your Teddy ❤️</b></p>
 
     <button onclick="startHug()">Click for a Teddy Hug 🧸💞</button>
 </div>
 
-<!-- Audio (upload love.mp3 to repo) -->
 <audio id="bgMusic" src="love.mp3"></audio>
 
-<!-- Hugging teddies -->
 <div class="hug-container" id="hug">
-    <span class="teddy-left">🧸</span>
-    <span class="teddy-right">🧸</span>
+    <img src="left-teddy.png" class="teddy left">
+    <img src="right-teddy.png" class="teddy right">
 </div>
 
 <div class="hug-message" id="hugMsg">💖 Hug Delivered with Love 💖</div>
 
-<!-- Floating hearts -->
 <div class="hearts">
     <span style="left:5%; animation-delay:0s;">❤️</span>
     <span style="left:15%; animation-delay:2s;">💖</span>
@@ -163,7 +157,6 @@ function startHug() {
 
     hug.style.display = "block";
     hug.classList.add("hug");
-
     music.play();
 
     setTimeout(() => {
