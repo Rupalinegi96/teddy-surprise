@@ -8,7 +8,7 @@
     :root {
         --deep-rose: #5c0a16;
         --soft-pink: #ff85a1;
-        --accent-glow: rgba(255, 77, 109, 0.5);
+        --accent-glow: rgba(255, 77, 109, 0.6);
     }
 
     body, html {
@@ -22,7 +22,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        perspective: 1000px; /* For 3D Tilt */
+        perspective: 1200px;
     }
 
     #bg-animation {
@@ -32,42 +32,38 @@
         z-index: 1;
     }
 
-    /* Enhanced Glassmorphism Card with Animation */
+    /* Glassmorphism Card */
     .card {
         position: relative;
         z-index: 10;
         width: 85%;
         max-width: 480px;
-        background: rgba(255, 255, 255, 0.04);
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(35px);
+        -webkit-backdrop-filter: blur(35px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 40px;
         padding: 50px 35px;
         text-align: center;
         color: #fff;
-        box-shadow: 0 0 40px rgba(255, 77, 109, 0.1);
-        transition: transform 0.2s ease-out; /* Smooth tilt */
-        animation: cardAppear 1.5s ease-out, cardGlow 4s ease-in-out infinite;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        animation: cardAppear 1.8s ease-out;
+        transition: transform 0.3s ease-out;
     }
 
     @keyframes cardAppear {
-        from { opacity: 0; transform: translateY(30px) scale(0.95); }
-        to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    @keyframes cardGlow {
-        0%, 100% { box-shadow: 0 0 30px rgba(255, 77, 109, 0.15); }
-        50% { box-shadow: 0 0 60px rgba(255, 77, 109, 0.3); }
+        from { opacity: 0; transform: translateY(40px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     h1 { 
-        font-size: 1.6rem; 
+        font-size: 1.5rem; 
         margin-bottom: 25px; 
         color: var(--soft-pink); 
         font-weight: 300;
-        letter-spacing: 2px;
+        letter-spacing: 3px;
         text-transform: uppercase;
+        text-shadow: 0 0 15px var(--accent-glow);
     }
 
     p { 
@@ -84,37 +80,37 @@
         text-shadow: 0 0 10px var(--accent-glow);
     }
 
-    /* Floating Heart & Sparkle Elements */
-    .floating-element {
+    /* Large Floating Heart Elements */
+    .floating-heart {
         position: absolute;
         pointer-events: none;
         animation: floatUp linear infinite;
         opacity: 0;
+        fill: var(--soft-pink);
     }
 
     @keyframes floatUp {
-        0% { transform: translateY(110vh) scale(0.3) rotate(0deg); opacity: 0; }
-        20% { opacity: 0.6; }
-        80% { opacity: 0.6; }
-        100% { transform: translateY(-20vh) scale(1) rotate(180deg); opacity: 0; }
+        0% { 
+            transform: translateY(110vh) scale(0.8) rotate(0deg); 
+            opacity: 0; 
+        }
+        20% { opacity: 0.5; }
+        80% { opacity: 0.5; }
+        100% { 
+            transform: translateY(-30vh) scale(1.5) rotate(45deg); 
+            opacity: 0; 
+        }
     }
 
-    /* Shine effect over the card */
-    .card::after {
+    /* Add a subtle vignette to focus on the center */
+    body::after {
         content: "";
         position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent);
-        transform: rotate(45deg);
-        animation: shine 6s infinite;
-    }
-
-    @keyframes shine {
-        0% { left: -100%; }
-        100% { left: 100%; }
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.4) 100%);
+        pointer-events: none;
+        z-index: 2;
     }
 </style>
 </head>
@@ -138,43 +134,55 @@
     const bg = document.getElementById('bg-animation');
     const card = document.getElementById('tiltCard');
     
-    // Create Hearts and Sparkles
-    function createElements() {
-        const isHeart = Math.random() > 0.3;
-        const el = document.createElement('div');
-        el.className = 'floating-element';
+    function createBigHeart() {
+        const heartContainer = document.createElement('div');
+        heartContainer.className = 'floating-heart';
         
-        if (isHeart) {
-            el.innerHTML = `<svg viewBox="0 0 32 32" width="100%" height="100%" fill="rgba(255, 133, 161, 0.4)"><path d="M16 28.5L14.1 26.75C7.2 20.55 2.5 16.3 2.5 11.25C2.5 7.15 5.75 4 9.75 4C12.05 4 14.25 5.1 15.5 6.85C16.75 5.1 18.95 4 21.25 4C25.25 4 28.5 7.15 28.5 11.25C28.5 16.3 23.8 20.55 16.9 26.75L16 28.5Z"/></svg>`;
-            const size = Math.random() * 20 + 10;
-            el.style.width = `${size}px`;
-        } else {
-            el.innerHTML = '✦'; // Magical sparkle
-            el.style.color = 'rgba(255, 255, 255, 0.5)';
-            el.style.fontSize = (Math.random() * 10 + 5) + 'px';
-        }
+        // Randomize size - significantly larger (up to 120px)
+        const size = Math.random() * 80 + 40; 
+        heartContainer.style.width = `${size}px`;
+        heartContainer.style.height = `${size}px`;
+        
+        // Randomize blur for depth effect (Bokeh)
+        const blurValue = Math.random() * 6;
+        heartContainer.style.filter = `blur(${blurValue}px) drop-shadow(0 0 15px var(--accent-glow))`;
+        
+        heartContainer.innerHTML = `
+            <svg viewBox="0 0 32 32" width="100%" height="100%">
+                <path d="M16 28.5L14.1 26.75C7.2 20.55 2.5 16.3 2.5 11.25C2.5 7.15 5.75 4 9.75 4C12.05 4 14.25 5.1 15.5 6.85C16.75 5.1 18.95 4 21.25 4C25.25 4 28.5 7.15 28.5 11.25C28.5 16.3 23.8 20.55 16.9 26.75L16 28.5Z"/>
+            </svg>
+        `;
 
-        el.style.left = `${Math.random() * 100}%`;
-        const duration = Math.random() * 8 + 7;
-        el.style.animationDuration = `${duration}s`;
-        el.style.animationDelay = `${Math.random() * 5}s`;
+        heartContainer.style.left = `${Math.random() * 100}%`;
         
-        bg.appendChild(el);
-        setTimeout(() => el.remove(), (duration + 2) * 1000);
+        // Slower, dreamier movement
+        const duration = Math.random() * 12 + 10;
+        heartContainer.style.animationDuration = `${duration}s`;
+        heartContainer.style.animationDelay = `${Math.random() * 5}s`;
+        
+        // Random opacity for variety
+        heartContainer.style.fill = `rgba(255, 133, 161, ${Math.random() * 0.3 + 0.1})`;
+        
+        bg.appendChild(heartContainer);
+
+        setTimeout(() => {
+            heartContainer.remove();
+        }, (duration + 2) * 1000);
     }
 
-    setInterval(createElements, 400);
+    // Create hearts at a moderate interval to keep it elegant, not cluttered
+    setInterval(createBigHeart, 800);
+    
+    // Initial burst
+    for(let i = 0; i < 8; i++) {
+        createBigHeart();
+    }
 
-    // Mouse Parallax / Tilt Effect
+    // Gentle Parallax Effect
     document.addEventListener('mousemove', (e) => {
-        let xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-        let yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+        let xAxis = (window.innerWidth / 2 - e.pageX) / 40;
+        let yAxis = (window.innerHeight / 2 - e.pageY) / 40;
         card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-    });
-
-    // Reset tilt on mouse leave
-    document.addEventListener('mouseleave', () => {
-        card.style.transform = `rotateY(0deg) rotateX(0deg)`;
     });
 </script>
 
