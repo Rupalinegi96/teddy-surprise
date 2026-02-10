@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Teddy Hug for Mohit</title>
+<title>Teddy Day for Mohit</title>
 <style>
     :root {
-        --deep-rose: #720917;
+        --deep-rose: #5c0a16;
         --soft-pink: #ff85a1;
-        --accent: #ff4d6d;
-        --petal: rgba(255, 182, 193, 0.6);
+        --accent-glow: rgba(255, 77, 109, 0.4);
     }
 
     body, html {
@@ -18,12 +17,12 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
-        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background: radial-gradient(circle at center, #3d141a 0%, #120507 100%);
     }
 
     /* Background Animation Container */
-    #bg-canvas {
+    #bg-animation {
         position: absolute;
         width: 100%;
         height: 100%;
@@ -38,145 +37,137 @@
         transform: translate(-50%, -50%);
         z-index: 10;
         width: 85%;
-        max-width: 450px;
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
+        max-width: 550px;
+        background: rgba(255, 255, 255, 0.07);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 30px;
-        padding: 40px 25px;
+        border-radius: 40px;
+        padding: 50px 30px;
         text-align: center;
         color: #fff;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        box-shadow: 0 25px 60px rgba(0,0,0,0.7);
     }
 
-    h1 { font-size: 2.2rem; margin-bottom: 15px; color: var(--soft-pink); font-weight: 300; }
-    p { font-size: 1.1rem; line-height: 1.6; opacity: 0.85; margin-bottom: 30px; }
-
-    /* Loading Bar */
-    .loading-container {
-        display: none;
-        margin: 20px auto;
-        width: 220px;
-    }
-    .loading-text { font-size: 13px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--soft-pink); }
-    .progress-bar {
-        width: 100%;
-        height: 8px;
-        background: rgba(255,255,255,0.1);
-        border-radius: 10px;
-        overflow: hidden;
-    }
-    .progress-fill {
-        width: 0%;
-        height: 100%;
-        background: linear-gradient(90deg, var(--accent), #fff);
-        transition: width 2.5s cubic-bezier(0.1, 0.5, 0.5, 1);
+    h1 { 
+        font-size: 2.4rem; 
+        margin-bottom: 25px; 
+        color: var(--soft-pink); 
+        font-weight: 300;
+        letter-spacing: 1px;
     }
 
-    button {
-        background: transparent;
-        color: #fff;
-        border: 1px solid var(--soft-pink);
-        padding: 15px 35px;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 16px;
-        cursor: pointer;
-        transition: all 0.4s ease;
+    p { 
+        font-size: 1.15rem; 
+        line-height: 1.8; 
+        opacity: 0.9; 
+        margin-bottom: 20px;
+        font-weight: 300;
     }
-    button:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px var(--accent); }
 
-    /* Floating Petals/Glows */
-    .petal-element {
+    .highlight {
+        color: var(--soft-pink);
+        font-weight: 500;
+    }
+
+    /* Moving Heart Elements */
+    .floating-heart {
         position: absolute;
-        background: var(--petal);
-        border-radius: 150% 0 150% 0; /* Petal shape */
-        pointer-events: none;
-        animation: drift linear infinite;
-        filter: blur(2px);
-    }
-
-    @keyframes drift {
-        0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-        15% { opacity: 0.5; }
-        85% { opacity: 0.5; }
-        100% { transform: translateY(-20vh) rotate(720deg); opacity: 0; }
-    }
-
-    /* Custom SVG Hug Icon */
-    .hug-icon {
-        width: 80px;
-        height: 80px;
         fill: var(--soft-pink);
-        display: none;
-        margin: 20px auto 0;
-        animation: pulse 2s infinite ease-in-out;
+        pointer-events: none;
+        animation: floatUp linear infinite;
+        filter: drop-shadow(0 0 10px var(--accent-glow));
+        opacity: 0;
     }
 
-    @keyframes pulse {
-        0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--accent)); }
-        50% { transform: scale(1.1); filter: drop-shadow(0 0 20px var(--accent)); }
+    @keyframes floatUp {
+        0% { 
+            transform: translateY(110vh) scale(0.5) rotate(0deg); 
+            opacity: 0; 
+        }
+        20% { opacity: 0.5; }
+        80% { opacity: 0.5; }
+        100% { 
+            transform: translateY(-20vh) scale(1.2) rotate(360deg); 
+            opacity: 0; 
+        }
+    }
+
+    /* Subtle texture for the background */
+    .overlay-glow {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+        opacity: 0.1;
+        z-index: 2;
+        pointer-events: none;
     }
 </style>
 </head>
 <body>
 
-<div id="bg-canvas"></div>
+<div class="overlay-glow"></div>
+<div id="bg-animation"></div>
 
 <div class="card">
-    <div id="content">
-        <h1>Teddy Day for Mohit</h1>
-        <p>You're the warmth in my winters and the softest place to land. Here's a little something for you...</p>
-        <button onclick="startHug()">Receive Virtual Hug</button>
-    </div>
-
-    <div class="loading-container" id="loader">
-        <div class="loading-text">Wrapping the warmth...</div>
-        <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
-    </div>
-
-    <svg class="hug-icon" id="hugIcon" viewBox="0 0 24 24">
-        <path d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.41,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.59,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z"/>
-    </svg>
-    <p id="successMsg" style="display:none; margin-top:15px; font-weight:bold;">Hug Delivered!</p>
+    <h1>Happy Teddy Day, my love</h1>
+    
+    <p>Everyone gifts a teddy today… but you’re the luckiest because you already have one — <span class="highlight">ME!</span></p>
+    
+    <p>Your personal soft, warm, always-ready-for-hugs teddy 😌</p>
+    
+    <p>Whenever you’re tired, stressed, or just missing me, just remember your teddy is always here to cuddle you tight and never let go.</p>
+    
+    <p class="highlight">Love you more than all the teddies in the world</p>
 </div>
 
 <script>
-    const canvas = document.getElementById('bg-canvas');
+    const bg = document.getElementById('bg-animation');
     
-    // Create floating rose petals
-    function createPetals() {
-        for(let i = 0; i < 30; i++) {
-            const petal = document.createElement('div');
-            petal.className = 'petal-element';
-            
-            const size = Math.random() * 15 + 10;
-            petal.style.width = `${size}px`;
-            petal.style.height = `${size}px`;
-            petal.style.left = `${Math.random() * 100}%`;
-            petal.style.animationDuration = `${Math.random() * 10 + 7}s`;
-            petal.style.animationDelay = `${Math.random() * 5}s`;
-            
-            canvas.appendChild(petal);
-        }
-    }
+    // Function to create SVG heart elements
+    function createHeart() {
+        const heartSvg = `
+            <svg viewBox="0 0 32 32" width="100%" height="100%">
+                <path d="M16 28.5L14.1 26.75C7.2 20.55 2.5 16.3 2.5 11.25C2.5 7.15 5.75 4 9.75 4C12.05 4 14.25 5.1 15.5 6.85C16.75 5.1 18.95 4 21.25 4C25.25 4 28.5 7.15 28.5 11.25C28.5 16.3 23.8 20.55 16.9 26.75L16 28.5Z"/>
+            </svg>
+        `;
 
-    function startHug() {
-        document.getElementById('content').style.display = 'none';
-        document.getElementById('loader').style.display = 'block';
+        const heartContainer = document.createElement('div');
+        heartContainer.className = 'floating-heart';
+        heartContainer.innerHTML = heartSvg;
         
-        const fill = document.getElementById('fill');
-        setTimeout(() => { fill.style.width = '100%'; }, 100);
+        // Randomize size between 15px and 45px
+        const size = Math.random() * 30 + 15;
+        heartContainer.style.width = `${size}px`;
+        heartContainer.style.height = `${size}px`;
+        
+        // Randomize horizontal position
+        heartContainer.style.left = `${Math.random() * 100}%`;
+        
+        // Randomize speed and delay
+        const duration = Math.random() * 8 + 7;
+        heartContainer.style.animationDuration = `${duration}s`;
+        heartContainer.style.animationDelay = `${Math.random() * 5}s`;
+        
+        // Match the glow color from the reference image
+        heartContainer.style.fill = `rgba(255, 133, 161, ${Math.random() * 0.4 + 0.3})`;
+        
+        bg.appendChild(heartContainer);
 
+        // Remove element after animation to keep the DOM clean
         setTimeout(() => {
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('hugIcon').style.display = 'block';
-            document.getElementById('successMsg').style.display = 'block';
-        }, 2600);
+            heartContainer.remove();
+        }, (duration + 5) * 1000);
     }
 
-    createPetals();
+    // Generate hearts continuously
+    setInterval(createHeart, 600);
+    
+    // Initial batch
+    for(let i = 0; i < 15; i++) {
+        createHeart();
+    }
 </script>
 
 </body>
